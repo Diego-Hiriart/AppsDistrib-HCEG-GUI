@@ -1,12 +1,8 @@
-/* This example requires Tailwind CSS v2.0+ */
-import { Fragment } from "react";
-import { Disclosure, Menu, Transition } from "@headlessui/react";
+import { Disclosure } from "@headlessui/react";
 import { MenuIcon, XIcon } from "@heroicons/react/outline";
 import logo from "../../assets/logo.png";
 
 import { Link, useLocation } from "react-router-dom";
-
-import settings from "../../assets/settings.png";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -15,6 +11,7 @@ function classNames(...classes) {
 export default function Nav(props) {
   const navItems = [
     { name: "View invoices", href: "/invoice", current: true },
+    { name: "Invoices stats", href: "/invoice/stats", current: false },
     { name: "Create invoice", href: "/invoice/create", current: false },
   ];
 
