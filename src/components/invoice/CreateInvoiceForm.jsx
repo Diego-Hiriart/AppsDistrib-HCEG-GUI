@@ -1,54 +1,78 @@
-import React from "react";
+import React, { useState } from "react";
+import { fetchApi } from "../../hooks/fetchApi";
+import { setState } from "../../hooks/setState";
 
-export const CreateInvoiceForm = (props) => {
+export const CreateInvoiceForm = ({ customers, products, paymentMethod }) => {
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [newInvoice, setNewInvoice] = useState({});
+
+  async function createInvoice(e) {
+    e.preventDefault();
+
+    console.log(newInvoice);
+
+    // const response = await fetchApi("/api/invoice", "POST", {
+    //   newInvoice,
+    // });
+
+    // response.ok ? setIsSubmitted(true) : console.log(response.status);
+  }
+
   return (
-    <form className="w-full" onSubmit={""}>
-      <label className="text-lg">Title</label>
-      <input
-        className="w-full bg-gray-700 border-transparent rounded"
-        type="text"
-        name="title"
-        placeholder="Title..."
-        required
-      />
-      <br />
-      <br />
-      <label className="text-lg">Description</label>
-      <textarea
-        className="w-full bg-gray-700 border-transparent rounded"
-        rows="5"
-        type="text"
-        name="description"
-        placeholder="Description..."
-        required
-      />
-      <br />
-      <br />
-      <label className="text-lg">Unit Price</label>
-      <input
-        className="w-full bg-gray-700 border-transparent rounded"
-        type="text"
-        name="unit_price"
-        placeholder="Price..."
-        required
-      />
-      <br />
-      <br />
-      <label className="text-lg">Sale</label>
-      <input
-        className="w-full bg-gray-700 border-transparent rounded"
-        type="text"
-        name="sale"
-        placeholder="Sale..."
-        required
-      />
-      <br />
-      <br />
+    <form className="w-full" onSubmit={createInvoice}>
+      <div className="flex flex-col">
+        <label className="text-lg">Customer</label>
+        <select
+          name="customer"
+          onChange={setState(setNewInvoice)}
+          className="bg-gray-700 rounded"
+        >
+          <option value="-">-</option>
+          {customers.map((item) => (
+            <option key={item.customerId} value={item.customerId}>
+              {item.name} - {item.idDocument}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      <div className="flex flex-col mt-8">
+        <label className="text-lg">Products</label>
+        {products.map((item) => (
+          <label className="text-lg">
+            <input
+              className="mr-4"
+              key={item.productId}
+              type="checkbox"
+              name="products"
+              value={item.productId}
+              onChange={setState(setNewInvoice)}
+            />
+            {item.price} | {item.name}
+          </label>
+        ))}
+      </div>
+
+      <div className="flex flex-col mt-8">
+        <label className="text-lg">Payment Method</label>
+        <select
+          name="payment_method"
+          onChange={setState(setNewInvoice)}
+          className="bg-gray-700 rounded"
+        >
+          <option value="-">-</option>
+          {paymentMethod.map((item) => (
+            <option key={item.paymentMethodId} value={item.paymentMethodId}>
+              {item.description}
+            </option>
+          ))}
+        </select>
+      </div>
       <button
-        className="mt-3 flex-shrink-0 border-transparent border-2 bg-gray-800 text-orange-500 hover:text-orange-700 text-sm p-2 rounded"
+        className="mt-8 flex-shrink-0 border-transparent border-2 bg-gray-800 text-white hover:text-gray-300 text-sm p-2 border-gray-500"
         type="submit"
       >
-        Submit
+        Create
       </button>
     </form>
   );
