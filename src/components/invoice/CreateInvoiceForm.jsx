@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { fetchApi } from "../../hooks/fetchApi";
+// import { fetchApi } from "../../hooks/fetchApi";
 import { setState } from "../../hooks/setState";
 
 export const CreateInvoiceForm = ({ customers, products, paymentMethod }) => {
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  // const [isSubmitted, setIsSubmitted] = useState(false);
   const [newInvoice, setNewInvoice] = useState({});
 
   async function createInvoice(e) {
