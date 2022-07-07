@@ -15,6 +15,7 @@ function classNames(...classes) {
 export default function Nav(props) {
   const navItems = [
     { name: "View invoices", href: "/invoice", current: true },
+    { name: "Invoices stats", href: "/invoice/stats", current: false },
     { name: "Create invoice", href: "/invoice/create", current: false },
   ];
 
