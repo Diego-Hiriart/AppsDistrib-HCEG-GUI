@@ -1,32 +1,33 @@
-import React, { useState, useEffect } from "react";
+import React from // ,{ useState, useEffect }
+"react";
 import { CreateInvoiceForm } from "../components/invoice/CreateInvoiceForm";
-import { fetchApi } from "../hooks/fetchApi";
+// import { fetchApi } from "../hooks/fetchApi";
 
 export const CreateInvoice = () => {
-  const [customers, setCustomers] = useState([
-    {
-      customerId: 0,
-      name: "",
-      phone: "",
-      email: "",
-      address: "",
-      birthDate: new Date(),
-      idDocument: "",
-    },
-  ]);
-  const [products, setProducts] = useState([
-    {
-      productId: 0,
-      name: "",
-      price: 0,
-    },
-  ]);
-  const [paymentMethod, setPaymentMethod] = useState([
-    {
-      paymentMethodId: 0,
-      description: "",
-    },
-  ]);
+  // const [customers, setCustomers] = useState([
+  //   {
+  //     customerId: 0,
+  //     name: "",
+  //     phone: "",
+  //     email: "",
+  //     address: "",
+  //     birthDate: new Date(),
+  //     idDocument: "",
+  //   },
+  // ]);
+  // const [products, setProducts] = useState([
+  //   {
+  //     productId: 0,
+  //     name: "",
+  //     price: 0,
+  //   },
+  // ]);
+  // const [paymentMethod, setPaymentMethod] = useState([
+  //   {
+  //     paymentMethodId: 0,
+  //     description: "",
+  //   },
+  // ]);
 
   // useEffect(() => {
   //   async function getCustomers() {
