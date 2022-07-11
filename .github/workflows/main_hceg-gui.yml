@@ -33,9 +33,10 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: node-app
-          paths:
-            exclude:
-              - './node-modules'
+          path: |
+            ./build
+            ./public
+            ./src
 
   deploy:
     runs-on: ubuntu-latest
