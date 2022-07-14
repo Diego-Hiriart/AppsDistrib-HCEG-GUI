@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { fetchApi } from "../../hooks/fetchApi";
+import { fetchApi } from "../../utils/fetchApi";
 import { API_URL } from "../../utils/api";
 import { setState } from "../../utils/setState";
 
