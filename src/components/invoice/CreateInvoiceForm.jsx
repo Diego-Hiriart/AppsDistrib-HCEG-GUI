@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { fetchApi } from "../../utils/fetchApi";
-import { API_URL } from "../../utils/api";
+import { INSERT_API_URL } from "../../utils/api";
 import { setState } from "../../utils/setState";
 
 export const CreateInvoiceForm = ({ customers, products, paymentMethod }) => {
@@ -17,11 +17,12 @@ export const CreateInvoiceForm = ({ customers, products, paymentMethod }) => {
   const createInvoice = async (e) => {
     e.preventDefault();
 
-    const response = await fetchApi(API_URL + "invoice", "POST", {
-      newInvoice,
+    const response = await fetchApi(INSERT_API_URL + "invoice", "POST", {
+      customerId: newInvoice.customer,
       products: checkboxes
         .map((item) => item.productId)
         .filter((id) => id !== 0),
+      paymentMethodId: newInvoice.payment_method,
     });
 
     response.ok ? setIsSubmitted(true) : console.log(response.status);
@@ -38,7 +39,9 @@ export const CreateInvoiceForm = ({ customers, products, paymentMethod }) => {
   };
 
   return isSubmitted ? (
-    <h1>Form was sent correctly!</h1>
+    <section>
+      <h1 className="text-lg">Form was sent correctly!</h1>
+    </section>
   ) : (
     <form className="w-full" onSubmit={createInvoice}>
       <div className="flex flex-col">
