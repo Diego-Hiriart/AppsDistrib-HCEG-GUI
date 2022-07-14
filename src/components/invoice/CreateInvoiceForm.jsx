@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { fetchApi } from "../../utils/fetchApi";
 import { API_URL } from "../../utils/api";
 import { setState } from "../../utils/setState";
@@ -6,27 +6,35 @@ import { setState } from "../../utils/setState";
 export const CreateInvoiceForm = ({ customers, products, paymentMethod }) => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [newInvoice, setNewInvoice] = useState({});
-  const [checkboxes, setCheckboxes] = useState(
-    new Array(products.length).fill(false)
-  );
+  const [checkboxes, setCheckboxes] = useState([]);
+
+  useEffect(() => {
+    setCheckboxes(
+      new Array(products.length).fill({ productId: 0, checked: false })
+    );
+  }, [products.length]);
 
   const createInvoice = async (e) => {
     e.preventDefault();
 
     const response = await fetchApi(API_URL + "invoice", "POST", {
       newInvoice,
-      checkboxes,
+      products: checkboxes
+        .map((item) => item.productId)
+        .filter((id) => id !== 0),
     });
 
     response.ok ? setIsSubmitted(true) : console.log(response.status);
   };
 
-  const handleCheckboxes = (position) => {
-    const updatedCheckedState = checkboxes.map((item, index) =>
-      index === position ? !item : item
+  const handleCheckboxes = (position, value) => {
+    const updatedCheckboxes = checkboxes.map((item, index) =>
+      index === position
+        ? { productId: Number(value), checked: !item.checked }
+        : { productId: item.productId, checked: item.checked }
     );
 
-    setCheckboxes(updatedCheckedState);
+    setCheckboxes(updatedCheckboxes);
   };
 
   return isSubmitted ? (
@@ -59,7 +67,7 @@ export const CreateInvoiceForm = ({ customers, products, paymentMethod }) => {
               type="checkbox"
               name="products"
               value={item.productId}
-              onChange={() => handleCheckboxes(index)}
+              onChange={(e) => handleCheckboxes(index, e.target.value)}
             />
             {item.price} | {item.name}
           </label>
