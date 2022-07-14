@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-// import { fetchApi } from "../../hooks/fetchApi";
-import { setState } from "../../hooks/setState";
+import { fetchApi } from "../../hooks/fetchApi";
+import { API_URL } from "../../utils/api";
+import { setState } from "../../utils/setState";
 
 export const CreateInvoiceForm = ({ customers, products, paymentMethod }) => {
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -9,23 +10,16 @@ export const CreateInvoiceForm = ({ customers, products, paymentMethod }) => {
     new Array(products.length).fill(false)
   );
 
-  async function createInvoice(e) {
+  const createInvoice = async (e) => {
     e.preventDefault();
 
-    setIsSubmitted(true);
+    const response = await fetchApi(API_URL + "invoice", "POST", {
+      newInvoice,
+      checkboxes,
+    });
 
-    newInvoice.map((a) => a);
-
-    // const response = await fetchApi("/api/invoice", "POST", {
-    //   newInvoice,
-    //   checkboxes,
-    // });
-
-    // console.log(newInvoice);
-    // console.log(checkboxes);
-
-    // response.ok ? setIsSubmitted(true) : console.log(response.status);
-  }
+    response.ok ? setIsSubmitted(true) : console.log(response.status);
+  };
 
   const handleCheckboxes = (position) => {
     const updatedCheckedState = checkboxes.map((item, index) =>
@@ -49,7 +43,7 @@ export const CreateInvoiceForm = ({ customers, products, paymentMethod }) => {
           <option value="-">-</option>
           {customers.map((item) => (
             <option key={item.customerId} value={item.customerId}>
-              {item.name} - {item.idDocument}
+              {item.fullName} - {item.idDocument}
             </option>
           ))}
         </select>
