@@ -1,14 +1,13 @@
-import Nav from "./components/nav/Nav";
-
+import { createElement } from "react";
 import {
   BrowserRouter as Router,
   Routes,
   Route,
   Navigate,
 } from "react-router-dom";
-import { ViewInvoices } from "./views/ViewInvoices";
-import { CreateInvoice } from "./views/CreateInvoice";
-import { InvoicesStats } from "./views/InvoicesStats";
+
+import Nav from "./components/nav/Nav";
+import RoutesComponent from "./routes/routes";
 
 function App() {
   return (
@@ -16,10 +15,13 @@ function App() {
       <Nav />
 
       <Routes>
-        <Route path="/invoice" element={<ViewInvoices />} />
-        <Route path="/invoice/stats" element={<InvoicesStats />} />
-        <Route path="/invoice/create" element={<CreateInvoice />} />
-
+        {RoutesComponent.map((route, index) => (
+          <Route
+            path={route.path}
+            key={index}
+            element={createElement(route.component)}
+          />
+        ))}
         <Route path="*" element={<Navigate to={"/invoice"} />} />
       </Routes>
     </Router>

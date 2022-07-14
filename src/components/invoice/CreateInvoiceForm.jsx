@@ -3,22 +3,41 @@ import React, { useState } from "react";
 import { setState } from "../../hooks/setState";
 
 export const CreateInvoiceForm = ({ customers, products, paymentMethod }) => {
-  // const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const [newInvoice, setNewInvoice] = useState({});
+  const [checkboxes, setCheckboxes] = useState(
+    new Array(products.length).fill(false)
+  );
 
   async function createInvoice(e) {
     e.preventDefault();
 
-    console.log(newInvoice);
+    setIsSubmitted(true);
+
+    newInvoice.map((a) => a);
 
     // const response = await fetchApi("/api/invoice", "POST", {
     //   newInvoice,
+    //   checkboxes,
     // });
+
+    // console.log(newInvoice);
+    // console.log(checkboxes);
 
     // response.ok ? setIsSubmitted(true) : console.log(response.status);
   }
 
-  return (
+  const handleCheckboxes = (position) => {
+    const updatedCheckedState = checkboxes.map((item, index) =>
+      index === position ? !item : item
+    );
+
+    setCheckboxes(updatedCheckedState);
+  };
+
+  return isSubmitted ? (
+    <h1>Form was sent correctly!</h1>
+  ) : (
     <form className="w-full" onSubmit={createInvoice}>
       <div className="flex flex-col">
         <label className="text-lg">Customer</label>
@@ -38,7 +57,7 @@ export const CreateInvoiceForm = ({ customers, products, paymentMethod }) => {
 
       <div className="flex flex-col mt-8">
         <label className="text-lg">Products</label>
-        {products.map((item) => (
+        {products.map((item, index) => (
           <label className="text-lg">
             <input
               className="mr-4"
@@ -46,7 +65,7 @@ export const CreateInvoiceForm = ({ customers, products, paymentMethod }) => {
               type="checkbox"
               name="products"
               value={item.productId}
-              onChange={setState(setNewInvoice)}
+              onChange={() => handleCheckboxes(index)}
             />
             {item.price} | {item.name}
           </label>
