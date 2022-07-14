@@ -1,24 +1,48 @@
-import React, { useState } from "react";
-// import { fetchApi } from "../../hooks/fetchApi";
-import { setState } from "../../hooks/setState";
+import React, { useState, useEffect } from "react";
+import { fetchApi } from "../../utils/fetchApi";
+import { INSERT_API_URL } from "../../utils/api";
+import { setState } from "../../utils/setState";
 
 export const CreateInvoiceForm = ({ customers, products, paymentMethod }) => {
-  // const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const [newInvoice, setNewInvoice] = useState({});
+  const [checkboxes, setCheckboxes] = useState([]);
 
-  async function createInvoice(e) {
+  useEffect(() => {
+    setCheckboxes(
+      new Array(products.length).fill({ productId: 0, checked: false })
+    );
+  }, [products.length]);
+
+  const createInvoice = async (e) => {
     e.preventDefault();
 
-    console.log(newInvoice);
+    const response = await fetchApi(INSERT_API_URL + "invoice", "POST", {
+      customerId: newInvoice.customer,
+      products: checkboxes
+        .map((item) => item.productId)
+        .filter((id) => id !== 0),
+      paymentMethodId: newInvoice.payment_method,
+    });
 
-    // const response = await fetchApi("/api/invoice", "POST", {
-    //   newInvoice,
-    // });
+    response.ok ? setIsSubmitted(true) : console.log(response.status);
+  };
 
-    // response.ok ? setIsSubmitted(true) : console.log(response.status);
-  }
+  const handleCheckboxes = (position, value) => {
+    const updatedCheckboxes = checkboxes.map((item, index) =>
+      index === position
+        ? { productId: Number(value), checked: !item.checked }
+        : { productId: item.productId, checked: item.checked }
+    );
 
-  return (
+    setCheckboxes(updatedCheckboxes);
+  };
+
+  return isSubmitted ? (
+    <section>
+      <h1 className="text-lg">Form was sent correctly!</h1>
+    </section>
+  ) : (
     <form className="w-full" onSubmit={createInvoice}>
       <div className="flex flex-col">
         <label className="text-lg">Customer</label>
@@ -30,7 +54,7 @@ export const CreateInvoiceForm = ({ customers, products, paymentMethod }) => {
           <option value="-">-</option>
           {customers.map((item) => (
             <option key={item.customerId} value={item.customerId}>
-              {item.name} - {item.idDocument}
+              {item.fullName} - {item.idDocument}
             </option>
           ))}
         </select>
@@ -38,7 +62,7 @@ export const CreateInvoiceForm = ({ customers, products, paymentMethod }) => {
 
       <div className="flex flex-col mt-8">
         <label className="text-lg">Products</label>
-        {products.map((item) => (
+        {products.map((item, index) => (
           <label className="text-lg">
             <input
               className="mr-4"
@@ -46,7 +70,7 @@ export const CreateInvoiceForm = ({ customers, products, paymentMethod }) => {
               type="checkbox"
               name="products"
               value={item.productId}
-              onChange={setState(setNewInvoice)}
+              onChange={(e) => handleCheckboxes(index, e.target.value)}
             />
             {item.price} | {item.name}
           </label>
