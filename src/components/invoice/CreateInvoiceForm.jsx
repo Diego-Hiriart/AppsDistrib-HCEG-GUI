@@ -17,14 +17,16 @@ export const CreateInvoiceForm = ({ customers, products, paymentMethod }) => {
   const createInvoice = async (e) => {
     e.preventDefault();
 
-    const response = await fetchApi(INSERT_API_URL + "invoice", "POST", {
+    let body = {
       customerId: newInvoice.customer,
       products: checkboxes
         .map((item) => item.productId)
         .filter((id) => id !== 0),
       paymentMethodId: newInvoice.payment_method,
-    });
+    };
 
+    const response = await fetchApi(INSERT_API_URL, "POST", body);
+    
     response.ok ? setIsSubmitted(true) : console.log(response.status);
   };
 
