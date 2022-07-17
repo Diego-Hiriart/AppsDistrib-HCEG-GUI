@@ -5,7 +5,7 @@ import { InvoiceItem } from "../components/invoice/InvoiceItem";
 export const ViewInvoices = () => {
   let myInvoice = {
     invoiceId: 1,
-    orderId: 1,
+    orderId: 4,
     customerId: 1,
     paymentMethodId: 1,
     subtotal: 1,
@@ -14,7 +14,7 @@ export const ViewInvoices = () => {
   };
   let myInvoice2 = {
     invoiceId: 2,
-    orderId: 2,
+    orderId: 4,
     customerId: 2,
     paymentMethodId: 2,
     subtotal: 2,
@@ -23,8 +23,6 @@ export const ViewInvoices = () => {
   };
   const [invoices /*setInvoices*/] = useState([myInvoice, myInvoice2]);
   const [isInvoiceOpen, setIsInvoiceOpen] = useState([false, undefined]);
-  // const [customer, setCustomer] = useState();
-  // const [order, setOrder] = useState();
 
   useEffect(() => {
     // async function getInvoices() {
