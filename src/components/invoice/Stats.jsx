@@ -32,7 +32,7 @@ export const Stats = ({ props }) => {
       <p>Yearly Sales:</p>
       {Object.entries(yearlySales).map((item, index) => (
         <p key={index}>
-          {item[0]}: {item[1].toFixed(2)}%
+          {item[0]}: {item[1].toFixed(2)}
         </p>
       ))}
     </div>
