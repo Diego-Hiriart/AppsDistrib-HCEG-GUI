@@ -40,8 +40,6 @@ export const FullInvoice = ({ invoice }) => {
 
       const prodResponse = await fetchApi(MAIN_API_URL + "products");
 
-      console.log(orderProds);
-      console.log(prodResponse);
       return prodResponse.ok
         ? setProducts(
             prodResponse.data.filter((product) =>
