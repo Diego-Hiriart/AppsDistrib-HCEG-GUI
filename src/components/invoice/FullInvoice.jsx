@@ -85,7 +85,7 @@ export const FullInvoice = ({ invoice }) => {
       {products.map((prod, index) => (
         <div key={index} className="flex gap-5 justify-between flex-wrap">
           <p>Name: {prod.name}</p>
-          <p>Price: {prod.price}</p>
+          <p>Price: {prod.price.toFixed(2)}</p>
         </div>
       ))}
 
@@ -95,9 +95,9 @@ export const FullInvoice = ({ invoice }) => {
 
       <br />
       <div className="flex gap-5 justify-between flex-wrap">
-        <p>Subtotal: {invoice.subtotal}</p>
-        <p>Tax: {invoice.tax}</p>
-        <p>Total: {invoice.total}</p>
+        <p>Subtotal: {invoice.subtotal.toFixed(2)}</p>
+        <p>Tax: {invoice.tax.toFixed(2)}</p>
+        <p>Total: {invoice.total.toFixed(2)}</p>
       </div>
     </div>
   ) : (
