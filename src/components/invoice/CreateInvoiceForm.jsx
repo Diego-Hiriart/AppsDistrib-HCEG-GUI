@@ -17,7 +17,7 @@ export const CreateInvoiceForm = ({ customers, products, paymentMethod }) => {
   const createInvoice = async (e) => {
     e.preventDefault();
 
-    const response = await fetchApi(INSERT_API_URL + "invoice", "POST", {
+    const response = await fetchApi(INSERT_API_URL, "POST", {
       customerId: newInvoice.customer,
       products: checkboxes
         .map((item) => item.productId)
