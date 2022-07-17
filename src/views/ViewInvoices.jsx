@@ -1,35 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { FullInvoice } from "../components/invoice/FullInvoice";
 import { InvoiceItem } from "../components/invoice/InvoiceItem";
+import { MAIN_API_URL } from "../utils/api";
+import { fetchApi } from "../utils/fetchApi";
 
 export const ViewInvoices = () => {
-  let myInvoice = {
-    invoiceId: 1,
-    orderId: 4,
-    customerId: 1,
-    paymentMethodId: 1,
-    subtotal: 1,
-    total: 1,
-    tax: 1.1,
-  };
-  let myInvoice2 = {
-    invoiceId: 2,
-    orderId: 4,
-    customerId: 2,
-    paymentMethodId: 2,
-    subtotal: 2,
-    total: 2,
-    tax: 2.2,
-  };
-  const [invoices /*setInvoices*/] = useState([myInvoice, myInvoice2]);
-  const [isInvoiceOpen, setIsInvoiceOpen] = useState([false, undefined]);
+  const [invoices, setInvoices] = useState([]);
+  const [isInvoiceOpen, setIsInvoiceOpen] = useState([false]);
 
   useEffect(() => {
-    // async function getInvoices() {
-    //   const response = await fetchApi(MAIN_API_URL + "invoices");
-    //   response.ok ? setInvoices(response.data) : console.log(response.status);
-    // }
-    // getInvoices();
+    async function getInvoices() {
+      const response = await fetchApi(MAIN_API_URL + "invoices");
+      response.ok ? setInvoices(response.data) : console.log(response.status);
+    }
+    getInvoices();
   }, []);
 
   async function openInvoice(invoice) {
