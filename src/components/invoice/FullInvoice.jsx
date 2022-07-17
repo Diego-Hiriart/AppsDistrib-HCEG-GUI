@@ -36,10 +36,12 @@ export const FullInvoice = ({ invoice }) => {
       );
       if (!response.ok || !response.data) return;
 
-      let orderProds = [].concat(response.data.map((order) => order.orderId));
+      let orderProds = [].concat(response.data.map((order) => order.productId));
 
       const prodResponse = await fetchApi(MAIN_API_URL + "products");
 
+      console.log(orderProds);
+      console.log(prodResponse);
       return prodResponse.ok
         ? setProducts(
             prodResponse.data.filter((product) =>
@@ -55,7 +57,7 @@ export const FullInvoice = ({ invoice }) => {
     getProducts(invoice.orderId);
   }, [invoice]);
 
-  return invoice && customer && order && products ? (
+  return invoice && customer && order && products && paymentMethod ? (
     <div className="border text-lg p-3 mt-5 mx-20 bg-gray-900">
       <p>Invoice ID: {invoice.invoiceId}</p>
 
